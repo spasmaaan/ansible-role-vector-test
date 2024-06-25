@@ -45,11 +45,18 @@
     mode: "0644"
   tags:
     - install
+- name: Create systemd system directory, in not exists
+  ansible.builtin.file:
+    path: /usr/lib/systemd/system
+    state: directory
+    mode: "0644"
+  tags:
+    - install
 - name: Setup Vector service systemd file
   become: true
   ansible.builtin.template:
     src: templates/vector.service.j2
-    dest: "{{ systemd_directory }}/vector.service"
+    dest: "/usr/lib/systemd/system/vector.service"
     mode: "0644"
   tags:
     - install
@@ -87,6 +94,7 @@
     - install
 - name: Reload systemd configs
   become: true
+  ignore_errors: true
   ansible.builtin.systemd_service:
     daemon_reload: true
   notify: Start Vector service
