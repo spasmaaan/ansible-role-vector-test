@@ -1,4 +1,6 @@
 galaxy_info:
+  role_name: vector-test
+  namespace: netology
   author: spasmaaan
   description: Vector test role
   company: Netology
