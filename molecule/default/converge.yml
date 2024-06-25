@@ -7,3 +7,5 @@
     - name: Include Vector
       include_role:
         name: ansible-role-vector-test
+      vars: 
+        use_dbus: false

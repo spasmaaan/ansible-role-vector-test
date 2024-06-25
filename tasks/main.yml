@@ -92,11 +92,16 @@
     append: true
   tags:
     - install
-- name: Reload systemd configs
-  become: true
-  ignore_errors: true
-  ansible.builtin.systemd_service:
-    daemon_reload: true
+- name: Reload configs
+  block:
+    - name: Reload systemd configs
+      become: true
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+  rescue:
+    - name: Systemd not available.
+      debug:
+        msg: Reload daemons skipped.
   notify: Start Vector service
   tags:
     - prepare
