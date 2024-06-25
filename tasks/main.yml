@@ -4,6 +4,7 @@
     url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-x86_64-unknown-linux-musl.tar.gz"
     dest: "./vector-{{ vector_version }}.tar.gz"
     mode: "0644"
+    validate_certs: false
   tags:
     - get
 - name: Create directory for Vector distrib
@@ -48,7 +49,7 @@
   become: true
   ansible.builtin.template:
     src: templates/vector.service.j2
-    dest: /usr/lib/systemd/system/vector.service
+    dest: "{{ systemd_directory }}/vector.service"
     mode: "0644"
   tags:
     - install

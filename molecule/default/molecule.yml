@@ -1,13 +1,15 @@
 ---
+dependency:
+  name: galaxy
 driver:
   name: docker
 platforms:
-  - name: Centos 7
-    image: quay.io/centos/centos:centos7
+  - name: centos7
+    image: docker.io/centos:centos7
     pre_build_image: true
-  - name: Oracle linux 8
-    image: oraclelinux:8
+  - name: oraclelinux8
+    image: docker.io/oraclelinux:8
     pre_build_image: true
-  - name: Ubuntu Latest
-    image: ubuntu:latest
+  - name: ubuntu_latest
+    image: docker.io/ubuntu:latest
     pre_build_image: true

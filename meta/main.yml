@@ -1,5 +1,5 @@
 galaxy_info:
-  role_name: vector-test
+  role_name: vector_test
   namespace: netology
   author: spasmaaan
   description: Vector test role
@@ -17,4 +17,4 @@ galaxy_info:
     versions:
      - latest
   galaxy_tags: []
-dependencies: []
+  dependencies: []
