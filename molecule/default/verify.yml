@@ -2,6 +2,7 @@
 - name: Verify
   hosts: all
   gather_facts: false
+  become_method: su
   tasks:
   - name: Check Vector default exists 
     stat:
