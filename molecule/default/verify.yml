@@ -1,0 +1,32 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Check Vector default exists 
+    stat:
+      path: /etc/default/vector
+    register: vector_default
+  - name: Vector default exists
+    ansible.builtin.assert:
+      that: vector_default.failed == false
+  - name: Check Vector systemd config exists
+    stat:
+      path: /usr/lib/systemd/system/vector.service
+    register: vector_systemd_config
+  - name: Vector systemd config exists
+    ansible.builtin.assert:
+      that: vector_systemd_config.failed == false
+  - name: Check Vector available
+    ansible.builtin.shell: "/usr/bin/vector --version"
+    register: vector_ready
+  - name: Vector is available
+    ansible.builtin.assert:
+      that: vector_ready.rc == 0
+  - name: Check Vector config is corrected
+    become: true
+    ansible.builtin.shell: "/usr/bin/vector validate --skip-healthchecks /etc/vector/vector.yaml"
+    register: vector_config
+  - name: Vector config is correct
+    ansible.builtin.assert:
+      that: vector_config.rc == 0

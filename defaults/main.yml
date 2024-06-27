@@ -1,6 +1,22 @@
 ---
 vector_version: "0.38.0"
-vector_config:
+vector_config: 
   sources:
+    logs:
+      type: "file"
+      include:
+        - "/var/log/error.log"
+      ignore_older_secs: 86400
   transforms:
+    logs_sampler:
+      inputs:
+        - logs
+      type: "sample"
+      rate: 2
   sinks:
+    clickhouse:
+      inputs:
+        - logs_sampler
+      type: "clickhouse"
+      endpoint: http://localhost:8123
+      table: host_logs
