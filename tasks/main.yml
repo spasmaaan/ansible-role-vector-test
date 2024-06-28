@@ -68,6 +68,14 @@
     mode: "0644"
   tags:
     - install
+- name: Create Vevtor data directory
+  become: true
+  ansible.builtin.file:
+    path: /var/lib/vector/
+    state: directory
+    mode: "0644"
+  tags:
+    - install
 - name: Setup Vector config
   become: true
   ansible.builtin.template:
