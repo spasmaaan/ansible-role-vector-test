@@ -6,4 +6,4 @@
   tasks:
     - name: Include Vector
       include_role:
-        name: vector_test
+        name: ansible-role-vector-test
