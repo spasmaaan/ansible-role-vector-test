@@ -104,12 +104,13 @@
   block:
     - name: Reload systemd configs
       become: true
-      ansible.builtin.systemd_service:
+      ansible.builtin.systemd:
         daemon_reload: true
+      notify: Start Vector service
   rescue:
     - name: Systemd not available.
       debug:
         msg: Reload daemons skipped.
-  notify: Start Vector service
+      notify: Start Vector service
   tags:
     - prepare
