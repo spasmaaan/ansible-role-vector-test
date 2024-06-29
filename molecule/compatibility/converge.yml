@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+  become_method: su
+  tasks:
+    - name: Include Vector
+      include_role:
+        name: ansible-role-vector-test
