@@ -3,5 +3,3 @@ lxml
 molecule
 molecule_podman
 jmespath
-ansible-lint
-yamllint
