@@ -9,40 +9,39 @@
     - get
 - name: Create directory for Vector distrib
   ansible.builtin.file:
-    path: ./vector-{{ vector_version }}
+    path: /tmp/vector-{{ vector_version }}
     state: directory
     mode: "0755"
   tags:
     - install
-- name: Unarchive Vector distrib
-  ansible.builtin.unarchive:
+- name: Copy Vector dist archive in manage node
+  become: true
+  ansible.builtin.copy:
     src: ./vector-{{ vector_version }}.tar.gz
-    dest: ./vector-{{ vector_version }}
-    remote_src: true
-    extra_opts:
-      - --strip-components=2
-  tags:
-    - install
-- name: Copy Vector bin file
-  become: true
-  ansible.builtin.copy:
-    src: ./vector-{{ vector_version }}/bin/vector
-    dest: /usr/bin/vector
-    remote_src: true
-    owner: root
-    group: root
-    mode: "0755"
-  tags:
-    - install
-- name: Copy Vector default
-  become: true
-  ansible.builtin.copy:
-    src: ./vector-{{ vector_version }}/etc/systemd/vector.default
-    dest: /etc/default/vector
+    dest: /tmp/vector-{{ vector_version }}.tar.gz
     remote_src: true
     owner: root
     group: root
     mode: "0644"
+  tags:
+    - install
+- name: Unarchive Vector distrib
+  become: true
+  ansible.builtin.shell:
+    cmd: tar -zxvf vector-{{ vector_version }}.tar.gz -C /tmp/vector-{{ vector_version }} --strip-components 2
+    chdir: /tmp/
+  tags:
+    - install
+- name: Copy Vector bin file
+  become: true
+  ansible.builtin.shell:
+    cmd: cp -f /tmp/vector-{{ vector_version }}/bin/vector /usr/bin/vector
+  tags:
+    - install
+- name: Copy Vector default
+  become: true
+  ansible.builtin.shell:
+    cmd: cp -f /tmp/vector-{{ vector_version }}/etc/systemd/vector.default /etc/default/vector.default
   tags:
     - install
 - name: Create systemd system directory, in not exists
